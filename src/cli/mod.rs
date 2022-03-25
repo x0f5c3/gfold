@@ -3,9 +3,10 @@
 
 use crate::config::{ColorMode, Config, DisplayMode};
 use crate::error::Error;
-use crate::result::Result;
+use anyhow::Result;
 use crate::run;
 use argh::FromArgs;
+use log::debug;
 use std::env;
 
 mod logging;
@@ -33,7 +34,7 @@ struct Args {
     #[argh(
         option,
         short = 'c',
-        description = "specify color mode [options: \"always\", \"compatibility\", \"off\"]"
+        description = "specify color mode [options: \"always\", \"compatibility\", \"never\"]"
     )]
     color_mode: Option<String>,
     #[argh(
@@ -49,7 +50,7 @@ struct Args {
     display_mode: Option<String>,
     #[argh(
         switch,
-        description = "display config options chosen, including those from the config file if they exist"
+        description = "display finalized config options and exit (merged options from an optional config file and command line arguments)"
     )]
     dry_run: bool,
     #[argh(switch, short = 'i', description = "ignore config file settings")]
@@ -69,11 +70,13 @@ pub fn parse_and_run() -> Result<()> {
     // debugging by setting "RUST_LOG".
     let args: Args = argh::from_env();
     logging::init(args.debug);
+    debug!("collected args and initialized logger");
 
     let mut config = match args.ignore_config_file {
         true => Config::new()?,
         false => Config::try_config()?,
     };
+    debug!("loaded initial config");
 
     if let Some(found_display_mode) = &args.display_mode {
         config.display_mode = match found_display_mode.to_lowercase().as_str() {
@@ -107,6 +110,7 @@ pub fn parse_and_run() -> Result<()> {
         config.path = env::current_dir()?.join(found_path).canonicalize()?;
     }
 
+    debug!("finalized config options");
     match &args.dry_run {
         true => config.print(),
         false => run::run(&config),

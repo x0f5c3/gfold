@@ -22,14 +22,14 @@ pub enum Error {
     #[error("could not find home directory")]
     HomeDirNotFound,
 
-    #[error("git2::Error")]
+    #[error(transparent)]
     Git2Rs(#[from] git2::Error),
-    #[error("serde_json::Error")]
+    #[error(transparent)]
     SerdeJson(#[from] serde_json::Error),
-    #[error("std::io::Error")]
+    #[error(transparent)]
     StdIo(#[from] std::io::Error),
-    #[error("toml::de::Error")]
+    #[error(transparent)]
     TomlDe(#[from] toml::de::Error),
-    #[error("toml::ser::Error")]
+    #[error(transparent)]
     TomlSe(#[from] toml::ser::Error),
 }

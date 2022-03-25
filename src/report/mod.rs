@@ -2,7 +2,7 @@
 
 use crate::config::DisplayMode;
 use crate::error::Error;
-use crate::result::Result;
+use anyhow::Result;
 use crate::status::Status;
 use git2::{ErrorCode, Reference, Repository, StatusOptions};
 use log::{debug, trace};
@@ -101,7 +101,10 @@ pub fn generate_reports(path: &Path, display_mode: &DisplayMode) -> Result<Repor
 
 /// Generates a report with a given path.
 fn generate_report(repo_path: &Path, include_email: bool) -> Result<Report> {
-    debug!("attemping to generate report for path: {:?}", repo_path);
+    debug!(
+        "attemping to generate report for repository at path: {:?}",
+        repo_path
+    );
     let repo = Repository::open(repo_path)?;
     let head = match repo.head() {
         Ok(head) => Some(head),
@@ -145,11 +148,11 @@ fn generate_report(repo_path: &Path, include_email: bool) -> Result<Report> {
         true => get_email(&repo),
         false => None,
     };
-    debug!(
-        "generating report for repository at {:?} on branch {} with status {:?}, url {:?}, and email {:?}",
-        &repo_path, &branch, &status, &url, &email
-    );
 
+    debug!(
+        "finalized report collection for repository at path: {:?}",
+        repo_path
+    );
     Report::new(repo_path, branch, &status, url, email)
 }
 

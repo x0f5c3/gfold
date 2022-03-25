@@ -34,10 +34,10 @@ pam ~ /home/neloth/src/pam
   neloth@solstheimcommunityserver.org
 ```
 
-The classic display mode can be toggled on with `--classic`.
+The classic display mode can be toggled with `-d classic`.
 
 ```
-% gfold --classic
+% gfold -d classic
 astrid  unclean   main       git@github.com:db/astrid.git
 fev     bare      main       none
 gb      unpushed  dev        https://github.com/hrothgar/gb.git
@@ -86,27 +86,35 @@ Upon execution, `gfold` will look for a config file at the following path on mac
 $HOME/.config/gfold.toml
 ```
 
-On Windows, the config file is located at the following path:
+On Windows, the lookup path will be in a similar location.
 
 ```powershell
 {FOLDERID_Profile}\.config\gfold.toml
 ```
 
-Creating and using the config file is entirely optional, and you can ignore your config file at any time using the `-i` flag.
-
-Here is an example creation workflow for a config file:
+Creating and using the config file is entirely optional.
+Let's say you created a config file, but wish to execute `gfold` with entirely different settings and want to ensure you do not accidentally use it.
+In that scenario you can ignore your config file at using the `-i` flag.
 
 ```bash
-gfold --classic ~/ --print > $HOME/.config/gfold.toml
+gfold -i
 ```
 
-This config file will default to the classic display mode and set the default path to `$HOME`, rather than the current working directory.
+For config file creation, you can use the `--dry-run` flag to print valid TOML.
+Here is an example creation workflow for a config file on macOS, Linux and similar operating systems:
+
+```bash
+gfold -d classic -c never ~/ --dry-run > $HOME/.config/gfold.toml
+```
+
+This config file will default to the classic display mode, never print colors, and set the default path to `$HOME` (rather than the current working directory).
 
 Here are the contents of the resulting config file:
 
 ```toml
 path = '/home/neloth'
 display_mode = 'Classic'
+color_mode = 'Never'
 ```
 
 You can back up a config file and track its history with `git`.

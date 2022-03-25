@@ -23,7 +23,6 @@ scan:
 	cd $(MAKEPATH); cargo bloat --release
 	cd $(MAKEPATH); cargo bloat --release --crates
 	cd $(MAKEPATH); cargo audit
-	cd $(MAKEPATH); cargo msrv
 .PHONY: scan
 
 clean:
