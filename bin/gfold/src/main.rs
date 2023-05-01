@@ -6,23 +6,31 @@
 
 use env_logger::Builder;
 use std::env;
-use tracing_subscriber::filter::LevelFilter;
 use tracing::debug;
-use tracing::LevelFilter;
+use tracing::Level;
+use tracing_subscriber::filter::LevelFilter;
 
 use crate::cli::CliHarness;
+pub(crate) use error::CliError;
 
 mod cli;
 mod config;
 mod display;
+mod error;
 
 /// Initializes the logger based on the debug flag and `RUST_LOG` environment variable and uses
 /// the [`CliHarness`] to generate a [`Config`](config::Config). Then, this calls
 /// [`CliHarness::run()`].
 fn main() -> anyhow::Result<()> {
-    match env::var("RUST_LOG").is_err() {
-        true => tracing_subscriber::fmt().pretty().,
-        false => env_logger::init(),
+    match env::var("RUST_LOG") {
+        Err(_) => tracing_subscriber::fmt()
+            .pretty()
+            .with_max_level(Level::ERROR)
+            .init(),
+        Ok(filt) => tracing_subscriber::fmt()
+            .pretty()
+            .with_env_filter(filt)
+            .init(),
     }
     debug!("initialized logger");
 

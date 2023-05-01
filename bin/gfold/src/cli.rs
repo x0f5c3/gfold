@@ -4,6 +4,7 @@
 use clap::Parser;
 use libgfold::RepositoryCollector;
 use std::env;
+use std::path::PathBuf;
 use thiserror::Error;
 use tracing::debug;
 
@@ -37,6 +38,8 @@ pub enum CliError {
     InvalidColorMode(String),
     #[error("invalid display mode provided (exec \"--help\" for options): {0}")]
     InvalidDisplayMode(String),
+    #[error("could not convert path (Path) to &str: {0}")]
+    PathToStrConversionFailure(PathBuf),
 }
 
 #[derive(Parser)]
