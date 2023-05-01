@@ -2,11 +2,11 @@
 
 use color::ColorHarness;
 use libgfold::RepositoryCollection;
-use log::debug;
-use log::warn;
 use std::io;
 use std::path::{Path, PathBuf};
 use thiserror::Error;
+use tracing::debug;
+use tracing::warn;
 
 use crate::config::{ColorMode, DisplayMode};
 

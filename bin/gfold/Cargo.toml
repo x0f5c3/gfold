@@ -26,3 +26,15 @@ thiserror = { workspace = true }
 env_logger = { version = "0.10", features = ["humantime"], default_features = false }
 serde_json = "1.0"
 toml = "0.7"
+
+
+[dependencies.tracing]
+version = "0.1.37"
+features = ["log"]
+
+[dependencies.tracing-subscriber]
+version = "0.3.17"
+features = ["env-filter", "local-time", "time", "parking_lot"]
+
+[dependencies.tracing-appender]
+version = "0.2.2"

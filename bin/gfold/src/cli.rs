@@ -3,9 +3,9 @@
 
 use clap::Parser;
 use libgfold::RepositoryCollector;
-use log::debug;
 use std::env;
 use thiserror::Error;
+use tracing::debug;
 
 use crate::config::{ColorMode, Config, DisplayMode};
 use crate::display::DisplayHarness;

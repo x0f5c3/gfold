@@ -1,11 +1,11 @@
 //! This module contains target generation logic required for generating
 //! [`RepositoryViews`](crate::repository_view::RepositoryView).
 
-use log::{debug, error, warn};
 use rayon::prelude::*;
 use std::fs::DirEntry;
 use std::path::PathBuf;
 use std::{fs, io};
+use tracing::{debug, error, warn};
 
 /// An unprocessed target that needs to be disassembled before consumption.
 type UnprocessedTarget = io::Result<MaybeTarget>;

@@ -18,19 +18,19 @@ mod tests {
     use git2::Oid;
     use git2::Repository;
     use git2::Signature;
-    use log::LevelFilter;
     use pretty_assertions::assert_eq;
     use std::fs::File;
     use std::path::{Path, PathBuf};
     use std::{fs, io};
     use tempfile::tempdir;
+    use tracing::Level;
 
     /// This integration test for `gfold` covers an end-to-end usage scenario. It uses the
     /// [`tempfile`](tempfile) crate to create some repositories with varying states and levels
     /// of nesting.
     #[test]
     fn poop() -> anyhow::Result<()> {
-        env_logger::builder()
+        tracing_sub::builder()
             .is_test(true)
             .filter_level(LevelFilter::Info)
             .try_init()?;

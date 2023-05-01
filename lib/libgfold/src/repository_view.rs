@@ -1,9 +1,9 @@
 use git2::{ErrorCode, Reference, Remote, Repository, StatusOptions};
-use log::{debug, error, trace};
 use serde::{Deserialize, Serialize};
 use std::path::{Path, PathBuf};
 use submodule_view::SubmoduleView;
 use thiserror::Error;
+use tracing::{debug, error, trace};
 
 use crate::status::Status;
 

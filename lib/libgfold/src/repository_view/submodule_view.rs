@@ -1,10 +1,10 @@
 //! This module contains the ability to gather information on submodules for a given [`Repository`].
 
 use git2::Repository;
-use log::error;
 use serde::Deserialize;
 use serde::Serialize;
 use thiserror::Error;
+use tracing::error;
 
 use crate::repository_view::RepositoryView;
 use crate::status::Status;

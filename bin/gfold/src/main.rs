@@ -5,9 +5,10 @@
 #![warn(missing_docs, clippy::missing_errors_doc, clippy::missing_panics_doc)]
 
 use env_logger::Builder;
-use log::debug;
-use log::LevelFilter;
 use std::env;
+use tracing_subscriber::filter::LevelFilter;
+use tracing::debug;
+use tracing::LevelFilter;
 
 use crate::cli::CliHarness;
 
@@ -20,7 +21,7 @@ mod display;
 /// [`CliHarness::run()`].
 fn main() -> anyhow::Result<()> {
     match env::var("RUST_LOG").is_err() {
-        true => Builder::new().filter_level(LevelFilter::Off).init(),
+        true => tracing_subscriber::fmt().pretty().,
         false => env_logger::init(),
     }
     debug!("initialized logger");
